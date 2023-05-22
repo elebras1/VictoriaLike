@@ -1,0 +1,58 @@
+centrale_charbon : 50 -> charbon : 30, outil : 10, administration : 3
+centrale_gaz : 50 -> gaz : 30, outil : 10, administration : 3
+centrale_fioul : 50 -> petrole : 30, outil : 10, administration : 3
+centrale_nucleaire : 100 -> uranium : 20, outil : 10, administration : 3
+centrale_hydroelectrique 70 -> acier : 10, outil : 10, administration : 3
+energie_renouvelable 25 -> matieres_premieres_strategiques : 10, fer : 5, outil : 5, administration : 3
+
+charbon 50 -> vehicule : 10, electricite : 30, petrole : 5, administration : 3, transport : 5
+gaz 50 -> vehicule : 10, electricite : 30, petrole : 5, administration : 3, transport : 5
+uranium 50 -> vehicule : 10, electricite : 30, petrole : 5, administration : 3, transport : 5
+petrole 50 -> vehicule : 5, electricite : 20, petrole : 5, administration : 3, transport : 5
+matieres_premieres_strategiques 50 -> vehicule : 10, electricite : 20, petrole : 10, administration : 3, transport : 5
+fer 50 -> vehicule : 5, electricite : 5, petrole : 10, administration : 3, transport : 5
+produit_chimique 50 -> culture : 15, electricite : 10, petrole : 10, administration : 3, transport : 5
+culture 50 -> petrole : 5, produit_chimique : 15, vehicule : 10, transport : 5
+elevage 50 -> culture : 20, electricite : 10, transport : 5
+bois 50 -> vehicule : 10, petrole : 5, electricite : 5, transport : 5
+
+construction 1 -> acier : 30, outil : 20, vehicule : 5, petrole : 5, administration : 3, transport : 5
+transport 50 -> vehicule : 15, electricite : 20, petrole : 10, acier : 10 , administration : 3, transport : 5
+port 1 -> outil : 20, electricite : 10, administration : 3, transport : 5
+administration 50 -> appareil_connecte : 10, electricite : 20, administration : 10, transport : 5
+
+vetement 50 -> culture : 10, produit_chimique : 20, electricite : 10, outil : 10, administration : 3, transport : 5
+meuble 50 -> bois : 20, produit_chimique : 10, electricite : 10, outil : 10, administration : 3, transport : 5
+outil 50 -> acier : 20, bois : 10, electricite : 10, semi_conducteur : 5, outil : 5, administration : 3, transport : 5
+semi_conducteur 50 -> matieres_premieres_strategiques : 25, acier : 5, electricite : 10, gaz : 5, outil : 5, administration : 3, transport : 5
+appareil_connecte 50 -> semi_conducteur : 15, matieres_premieres_strategiques : 15, electricite : 10, gaz : 5, outil : 5, administration : 3, transport : 5
+acier 50 -> fer : 40, electricite : 10, gaz : 5, outil : 5, produit_chimique : 5, administration : 3, transport : 5
+
+A FAIRE :
+modifier toutes les matrices pour en faire des dictionnaires
+
+def event_electricity(
+        self,
+        event,
+        liste_icon_centrale,
+        onglet_manufacture,
+        onglet_ressource,
+        onglet_infrastructure,
+    ):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            for i, icon in enumerate(liste_icon_centrale):
+                if icon.collidepoint(pygame.mouse.get_pos()):
+                    if event.button == 1 and pygame.key.get_mods() & pygame.KMOD_CTRL:
+                        self.user_electricity.set_centrale(10)
+                    elif event.button == 1:
+                        self.user_electricity.set_centrale(1)
+
+            onglets = [
+                [onglet_manufacture, 6],
+                [onglet_ressource, 8],
+                [onglet_infrastructure, 10],
+            ]
+            for onglet, id_onglet in onglets:
+                if onglet.collidepoint(pygame.mouse.get_pos()):
+                    if event.button == 1:
+                        self.main.set_id_onglet(id_onglet)
